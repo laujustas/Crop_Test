@@ -25,8 +25,6 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v1
-      - name: Zip Folder
-        run: zip -r release.zip .
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -34,7 +32,9 @@ jobs:
           aws-secret-access-key: "u2BtfMtxxDnn52etw3QQI5AQ4DPT04dTDesZA4NO"
           aws-region: us-east-1
       - name: Deploy update
-        run: aws lambda update-function-code --function-name=CropTest-HelloWorldFunction-cS0jJYujneeL --zip-file=fileb://release.zip
+        run: |
+          zip -j release.zip ./*
+          aws lambda update-function-code --function-name=CropTest-HelloWorldFunction-cS0jJYujneeL --zip-file=fileb://release.zip
 
   invoke-remote:
     runs-on: ubuntu-latest
