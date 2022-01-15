@@ -13,11 +13,11 @@ jobs:
       - name: Build with Maven
         working-directory: ./HelloWorldFunction
         run: mvn clean install
-      - uses: docker/build-push-action@v2
+      - uses: docker/build-push-action@v1
         with:
           username: "laujustas"
           password: "kcsbH93MVGzwcy4"
-          repository: ${{ github.repository }}
+          repository: "laujustas/crop_test:latest"
           tags: latest, ${{ github.sha }}
   deploy:
     runs-on: ubuntu-latest
