@@ -37,7 +37,7 @@ jobs:
           memory_size: 128
           timeout: 10
           handler: helloworld.App::handleRequest
-          role: arn:aws:iam::737100821169:role/CropTest-HelloWorldFunctionRole-KOFG859A2IDO
+          role: arn:aws:iam::737100821169:role/service-role/LambdaRole
           runtime: java11
 
   invoke-remote:
