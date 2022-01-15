@@ -29,5 +29,5 @@ jobs:
         with:
           AWS_ACCESS_KEY_ID: "AKIA2XHVB6KY3RKAHEEU"
           AWS_SECRET_ACCESS_KEY: "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"
-          FunctionName: CropTest
+          FunctionName: CropTest-HelloWorldFunction-cS0jJYujneeL
           Payload: '{ "repo": "${{ github.repository }}", "sha": "${{ github.sha }}"}'
