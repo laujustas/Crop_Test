@@ -31,10 +31,17 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+      - name: Archive Code
+        uses: TheDoctor0/zip-release@0.4.1
+        with:
+          # Filename for archive
+          filename: ../HelloWorldFunction.zip
+          # Working directory before zipping
+          directory: HelloWorldFunction
       - name: Deploy update
         run: |
           zip -j release.zip ./*
-          aws lambda update-function-code --function-name=CropTest-HelloWorldFunction-cS0jJYujneeL --zip-file=fileb://release.zip
+          aws lambda update-function-code --function-name=CropTest-HelloWorldFunction-cS0jJYujneeL --zip-file=fileb://HelloWorldFunction.zip
 
   invoke-remote:
     runs-on: ubuntu-latest
