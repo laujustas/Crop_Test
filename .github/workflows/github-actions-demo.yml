@@ -19,7 +19,28 @@ jobs:
           password: "kcsbH93MVGzwcy4"
           repository: "laujustas/crop_test"
           tags: latest, ${{ github.sha }}
+
   deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Zip Folder
+        run: zip -r release.zip .
+      - name: default deploy
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: "AKIA2XHVB6KY3RKAHEEU"
+          aws_secret_access_key: "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"
+          aws_region: "us-east-1"
+          function_name: crop-updated
+          zip_file: release.zip
+          memory_size: 128
+          timeout: 10
+          handler: helloworld.App::handleRequest
+          role: arn:aws:iam::737100821169:role/CropTest-HelloWorldFunctionRole-KOFG859A2IDO
+          runtime: java11
+
+  invoke-remote:
     runs-on: ubuntu-latest
     needs: build
     if: contains(github.ref, 'master')
