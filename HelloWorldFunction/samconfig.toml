@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "CropStack"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-o5jt7pcqoygy"
+s3_prefix = "CropStack"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = []

@@ -10,13 +10,7 @@ public class AppTest {
   @Test
   public void successfulResponse() {
     App app = new App();
-    //APIGatewayProxyResponseEvent result = app.handleRequest(null, null);
-    //assertEquals(200, result.getStatusCode().intValue());
-    //assertEquals("application/json", result.getHeaders().get("Content-Type"));
-    //String content = result.getBody();
-    //assertNotNull(content);
-    //assertTrue(content.contains("\"message\""));
-    //assertTrue(content.contains("\"hello world\""));
-    //assertTrue(content.contains("\"location\""));
+    String result = app.handleRequest("https://getwallpapers.com/wallpaper/full/2/5/4/727006-best-windows-xp-desktop-backgrounds-3840x2160.jpg", null);
+    assertNotNull(result);
   }
 }
