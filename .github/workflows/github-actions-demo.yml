@@ -30,4 +30,4 @@ jobs:
           AWS_ACCESS_KEY_ID: "AKIA2XHVB6KY3RKAHEEU"
           AWS_SECRET_ACCESS_KEY: "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"
           FunctionName: CropTest-HelloWorldFunction-cS0jJYujneeL
-          Payload: "https://getwallpapers.com/wallpaper/full/2/5/4/727006-best-windows-xp-desktop-backgrounds-3840x2160.jpg"
+          Payload: '"https://getwallpapers.com/wallpaper/full/2/5/4/727006-best-windows-xp-desktop-backgrounds-3840x2160.jpg"'
