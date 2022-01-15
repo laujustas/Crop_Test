@@ -28,8 +28,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: "AKIA2XHVB6KY3RKAHEEU"
-          aws-secret-access-key: "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"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: Deploy update
         run: |
@@ -44,7 +44,7 @@ jobs:
       - name: Invoke deploy Lambda
         uses: gagoar/invoke-aws-lambda@master
         with:
-          AWS_ACCESS_KEY_ID: "AKIA2XHVB6KY3RKAHEEU"
-          AWS_SECRET_ACCESS_KEY: "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"
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           FunctionName: CropTest-HelloWorldFunction-cS0jJYujneeL
           Payload: '"https://getwallpapers.com/wallpaper/full/2/5/4/727006-best-windows-xp-desktop-backgrounds-3840x2160.jpg"'
