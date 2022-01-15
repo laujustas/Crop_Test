@@ -17,7 +17,7 @@ jobs:
         with:
           username: "laujustas"
           password: "kcsbH93MVGzwcy4"
-          repository: "laujustas/crop_test:latest"
+          repository: "laujustas/crop_test"
           tags: latest, ${{ github.sha }}
   deploy:
     runs-on: ubuntu-latest
