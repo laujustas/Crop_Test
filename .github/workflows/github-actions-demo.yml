@@ -19,6 +19,8 @@ jobs:
           password: "kcsbH93MVGzwcy4"
           repository: "laujustas/crop_test"
           tags: latest, ${{ github.sha }}
+      - name: Run unit tests
+        run: mvn test
 
   deploy:
     runs-on: ubuntu-latest
