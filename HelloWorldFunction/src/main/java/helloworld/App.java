@@ -21,7 +21,7 @@ public class App implements RequestHandler<String, String> {
         try {
             URL imgUrl = new URL(input);
             BufferedImage image = ImageIO.read(imgUrl);
-            BufferedImage croppedImg = image.getSubimage(1000, 1000, 500, 500);
+            BufferedImage croppedImg = image.getSubimage(500, 500, 500, 500);
             String encodedImg = encodeBase64Binary(croppedImg);
             return encodedImg;
         } catch (IOException e) {
