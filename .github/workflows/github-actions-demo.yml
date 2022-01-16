@@ -20,6 +20,7 @@ jobs:
           repository: "laujustas/crop_test"
           tags: latest, ${{ github.sha }}
       - name: Run unit tests
+        working-directory: ./HelloWorldFunction
         run: mvn test
 
   deploy:
