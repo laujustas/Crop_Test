@@ -23,49 +23,6 @@ jobs:
         working-directory: ./HelloWorldFunction
         run: mvn test
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-python@v2
-        with:
-          python-version: "3.8"
-      - uses: aws-actions/setup-sam@v1
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - run: sam build --use-container
-      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
-      #- name: Deploy update
-      #  uses: r0zar/sam-deploy-action@v1.4
-      #  env:
-      #    TEMPLATE: 'template.yaml'
-      #    AWS_STACK_NAME: "CropTest"
-      #    AWS_REGION: 'us-east-1'
-      #    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #    AWS_DEPLOY_BUCKET: ${{ secrets.AWS_DEPLOY_BUCKET }}
-      #  run: |
-      #    zip -j release.zip ./*
-      #    aws lambda update-function-code --function-name=CropTest-HelloWorldFunction-cS0jJYujneeL --zip-file=fileb://HelloWorldFunction.zip
-
-  invoke-remote:
-    runs-on: ubuntu-latest
-    needs: deploy
-    if: contains(github.ref, 'master')
-    steps:
-      - name: Invoke deploy Lambda
-        uses: gagoar/invoke-aws-lambda@master
-        with:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          FunctionName: CropTest-HelloWorldFunction-cS0jJYujneeL
-          Payload: '"https://getwallpapers.com/wallpaper/full/2/5/4/727006-best-windows-xp-desktop-backgrounds-3840x2160.jpg"'
-
   deploy-test:
     runs-on: ubuntu-latest
     needs: build
@@ -83,3 +40,48 @@ jobs:
           aws-region: us-east-1
       - run: sam build --use-container
       - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --config-file testsamconfig.toml
+
+  invoke-test:
+    runs-on: ubuntu-latest
+    needs: deploy-test
+    if: contains(github.ref, 'master')
+    steps:
+      - name: Invoke deploy Lambda
+        uses: gagoar/invoke-aws-lambda@master
+        with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          FunctionName: TestEnvironment-HelloWorldFunction-U0yBWLKpweCr
+          Payload: '"https://getwallpapers.com/wallpaper/full/2/5/4/727006-best-windows-xp-desktop-backgrounds-3840x2160.jpg"'
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: invoke-test
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - uses: aws-actions/setup-sam@v1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - run: sam build --use-container
+      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset
+
+  invoke-remote:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: contains(github.ref, 'master')
+    steps:
+      - name: Invoke deploy Lambda
+        uses: gagoar/invoke-aws-lambda@master
+        with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          FunctionName: CropTest-HelloWorldFunction-cS0jJYujneeL
+          Payload: '"https://getwallpapers.com/wallpaper/full/2/5/4/727006-best-windows-xp-desktop-backgrounds-3840x2160.jpg"'
+
